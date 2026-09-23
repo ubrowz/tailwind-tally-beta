@@ -1,6 +1,6 @@
 # Tailwind Tally (beta)
 
-Test builds of [Tailwind Tally](https://ubrowz.github.io/tailwind-tally/), published from the `forecast-wind` branch of [ubrowz/tailwind-tally](https://github.com/ubrowz/tailwind-tally). **Not the released app**: it may change or break at any time.
+Test builds of [Tailwind Tally](https://ubrowz.github.io/tailwind-tally/), published from the `wind-forecast-v2` branch of [ubrowz/tailwind-tally](https://github.com/ubrowz/tailwind-tally). **Not the released app**: it may change or break at any time.
 
 Live at https://ubrowz.github.io/tailwind-tally-beta/ (no search indexing, no visit counter).
 
