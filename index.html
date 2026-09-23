@@ -1507,7 +1507,8 @@ svg.leaflet-image-layer.leaflet-interactive path {
   @media (prefers-color-scheme: dark) { .beta-banner { background: #3a3110; color: #f3e2a3; border-bottom-color: #6b5a1f; } }
 </style>
 
-<div class="beta-banner">Beta: a test version of Tailwind Tally, not the released app. The released app is at <a href="https://ubrowz.github.io/tailwind-tally/">ubrowz.github.io/tailwind-tally/</a>.</div>
+<div class="beta-banner" id="betaBanner">Beta: a test version of Tailwind Tally, not the released app. The released app is at <a href="https://ubrowz.github.io/tailwind-tally/">ubrowz.github.io/tailwind-tally/</a>.</div>
+<script>if (/[?&]shots\b/.test(location.search)) { var b = document.getElementById("betaBanner"); if (b) b.style.display = "none"; }</script>
 
 <div class="page">
 
