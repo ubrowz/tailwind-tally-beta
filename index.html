@@ -6365,6 +6365,50 @@ svg.leaflet-image-layer.leaflet-interactive path {
   langNlBtn.addEventListener("click", function () { setLang("nl"); });
   applyLang();
 
+  // ---- TEMPORARY share test (branch share-test, beta only - never live) -------------------
+  (function () {
+    var box = document.createElement("div");
+    box.style.cssText = "margin:10px 16px;padding:10px 12px;border:2px dashed #a15c00;border-radius:8px;font:13px/1.45 system-ui,sans-serif;background:#fff8e6;color:#3a2a00";
+    var ua = navigator.userAgent || "";
+    var inApp = /iPhone|iPad|iPod/.test(ua) && /AppleWebKit/.test(ua) && !/Safari\//.test(ua);
+    var hasShare = typeof navigator.share === "function", hasCanShare = typeof navigator.canShare === "function";
+    var diag = document.createElement("div");
+    diag.textContent = "SHARE TEST - in app: " + inApp + " | navigator.share: " + hasShare + " | navigator.canShare: " + hasCanShare;
+    var result = document.createElement("div");
+    result.style.fontWeight = "600";
+    function button(label, fn) {
+      var b = document.createElement("button");
+      b.type = "button"; b.textContent = label;
+      b.style.cssText = "margin:6px 8px 0 0;padding:8px 12px;font:600 14px system-ui;border-radius:6px;border:1px solid #a15c00;background:#fff";
+      b.addEventListener("click", fn); box.appendChild(b);
+    }
+    box.appendChild(diag);
+    button("Test: share image", function () {
+      result.textContent = "making the image...";
+      var svg = document.getElementById("polarSvg"), vb = svg.getAttribute("viewBox").split(/\s+/).map(Number);
+      svgStringToPngBlob(svgToInlinedString(svg, "#ffffff"), vb[2], vb[3], 2).then(function (blob) {
+        var file = new File([blob], "tailwind-tally-share-test.png", { type: "image/png" });
+        var can = hasCanShare ? navigator.canShare({ files: [file] }) : "n/a";
+        if (!hasShare) { result.textContent = "no navigator.share here (canShare files: " + can + ")"; return; }
+        result.textContent = "calling navigator.share (canShare files: " + can + ")...";
+        return navigator.share({ files: [file], title: "Tailwind Tally" }).then(function () {
+          result.textContent = "OK: share sheet opened and something was chosen (canShare files: " + can + ")";
+        }, function (err) {
+          result.textContent = "share rejected: " + (err && err.name) + " - " + (err && err.message) + " (canShare files: " + can + ")";
+        });
+      }).catch(function (e) { result.textContent = "error making the image: " + e; });
+    });
+    button("Test: share text only", function () {
+      if (!hasShare) { result.textContent = "no navigator.share here"; return; }
+      navigator.share({ title: "Tailwind Tally", text: "Share test", url: location.href }).then(function () {
+        result.textContent = "OK: text share sheet opened";
+      }, function (err) { result.textContent = "text share rejected: " + (err && err.name) + " - " + (err && err.message); });
+    });
+    box.appendChild(result);
+    var page = document.querySelector(".page");
+    page.insertBefore(box, page.firstChild);
+  })();
+
   // Opening the app at ...#how-it-works shows that tab straight away.
   if (window.location.hash === "#how-it-works") setView("how");
 
